@@ -1,0 +1,24 @@
+@(emailForm: Form[FormData])
+
+@main("Trial Project") {
+
+    <h1>Trial Project <small>Email + WSDL</small></h1>
+
+    <p class="lead">Please register with your Email</p>
+
+
+    @helper.form(action = routes.Application.submit()) {
+        <div class="form-group">
+            <div class="form-group">
+                <label for="@emailForm("email").id">Email</label>
+                <input type="email" class="form-control" id="@emailForm("email").id" name="email" placeholder="Enter email">
+                @if(emailForm("email").hasErrors) {
+                    <span class="text-danger">@emailForm("email").error.map(m => Messages(m.message, m.args))</span>
+                }
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    }
+
+}

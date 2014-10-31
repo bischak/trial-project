@@ -1,0 +1,19 @@
+@(data:Map[String, String])
+
+@main("Trial Project") {
+
+    <h1>Trial Project <small>Email + WSDL</small></h1>
+
+    <h2 class="lead">What is the weather today?</h2>
+
+    @for(item <- data) {
+        <p>
+            @item._1 : @item._2
+        </p>
+    }
+
+    <p>Thank you for using our service!</p>
+
+    <p><a href="/resend"> Try again <i class="fa fa-arrow"></i></a> </p>
+
+}
