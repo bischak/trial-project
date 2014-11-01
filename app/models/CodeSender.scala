@@ -11,20 +11,26 @@ import scala.concurrent.duration._
  * Author: Dmytro Bischak
  * Date: 30.10.2014
  */
-object CodeSender {
+
+class CodeSender {
+
+  protected val mailer: MailerAPI = use[MailerPlugin].email
+
+  protected def delayedExecution(block: => Unit): Unit = Akka.system.scheduler.scheduleOnce(1.seconds)(block)
 
   def sendCode(code: String, email: String) = {
 
-    Akka.system.scheduler.scheduleOnce(1.seconds) {
+    delayedExecution {
 
-      val mail = use[MailerPlugin].email
-      mail.setSubject("Code Verification Trial Project")
-      mail.setRecipient(email)
+      mailer.setSubject("Code Verification Trial Project")
+      mailer.setRecipient(email)
 
-      mail.setFrom("Dmytro Bischak <dmytro.bischak@gmail.com>")
-      mail.sendHtml(views.html.email_template(code).body)
+      mailer.setFrom("Dmytro Bischak <dmytro.bischak@gmail.com>")
+      mailer.sendHtml(views.html.email_template(code).body)
     }
 
   }
 
 }
+
+object CodeSender extends CodeSender
